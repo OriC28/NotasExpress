@@ -5,12 +5,9 @@ from Lib.students import Student
 COLUMNS = [["F","G","H","I"],["J","K","L","M"],["N","O","P","Q"],["R","S","T","U"],["V","W","X","Y"]]
 
 class Extraction:
-	def __init__(self, file_path, choiced=0):
-		self.file_path = file_path
-		self.choiced = choiced
-		self.workbook = load_workbook(self.file_path, data_only=True)
-		self.sheets = self.workbook.sheetnames
-		self.sheet_choiced = self.workbook[self.sheets[choiced]]
+	def __init__(self, workbook, choiced):
+		self.workbook = workbook
+		self.sheet_choiced = self.workbook[self.workbook.sheetnames[choiced]]
 
 	def find_start_end_table(self, aprox_start, aprox_end):
 		for n in range(aprox_start, aprox_end):
@@ -82,19 +79,3 @@ class Extraction:
 		row_to_search = self.sheet_choiced["B11":"B11"][0][0].value
 		year = re.search(r'(\d{4}-\d{4})', row_to_search)
 		return year.group()
-
-'''
-e = Extraction("NOTAS.xlsx", 5) # LOS PARÁMETROS DE Extraction LOS PROPORCIONARÁ LA GUI
-
-# POSICIONES APROXIMADAS PARA OBTENER LAS REALES
-first_table_position = e.find_start_end_table(14, 30) 
-second_table_position = e.find_start_end_table(31, 60)
-
-# MATERIAS CON SUS RESPECTIVAS NOTAS
-first_table_notes = e.save_notes_subjects(14, first_table_position)
-second_table_notes = e.save_notes_subjects(35, second_table_position)
-
-# DATOS DE LOS ESTUDIANTES (CEDULAS, NOMBRES Y APELLIDOS)
-students_data = e.get_student_data(int(first_table_position[0]), int(first_table_position[1]))
-
-'''

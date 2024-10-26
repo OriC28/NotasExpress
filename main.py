@@ -1,11 +1,16 @@
+from openpyxl import load_workbook
+from threading import Thread
+
 from PyQt6.QtWidgets import QWidget, QApplication, QPushButton, QMessageBox, QFileDialog
 from PyQt6 import uic, QtGui
-from threading import Thread
+
 from Lib.Extraction import Extraction
 
 class Generator:
 	def __init__(self):
 		self.file_path = None
+		self.extr = None
+		self.workbook = None
 		self.message = QMessageBox 
 		self.program = uic.loadUi("GUI/GUI.ui")
 		self.init_gui()
@@ -20,31 +25,33 @@ class Generator:
 			file_path, filter = QFileDialog.getOpenFileName(self.program, 'Open file', '', 'Excel files (*.xlsx)')
 			if file_path:
 				self.file_path = file_path
+
+				self.workbook = load_workbook(file_path, data_only=True) # CARGANDO ARCHIVO EXCEL
+
+				self.program.CbYearSection.addItems(self.workbook.sheetnames)
+			
 				self.program.DirectoryEntry.setText(file_path)
-
-				extraction = Extraction(self.file_path)
-
-				self.program.CbYearSection.addItems(extraction.sheets)
 				self.program.CbYearSection.setEnabled(True)
 
 		except Exception as e:
 			print(e)
 
-		finally:
-			del extraction
-			
 	def get_notes(self):
 		try:
 			sheet_choiced = self.program.CbYearSection.currentIndex()
-			extraction = Extraction(self.file_path, sheet_choiced)
-	
-			first_table_position = extraction.find_start_end_table(14, 30) 
-			#second_table_position = self.e.find_start_end_table(31, 60)
 
-			first_table_notes = extraction.save_notes_subjects(14, first_table_position)
-			#second_table_notes = self.e.save_notes_subjects(35, second_table_position)
+			self.extr = Extraction(self.workbook, sheet_choiced)
 
-			print(first_table_notes)
+			first_table = self.extr.find_start_end_table(14, 30)
+
+			second_table = self.extr.find_start_end_table(int(first_table[1])+1, 60)
+
+			notes = self.extr.save_notes_subjects(14, first_table)
+
+			notes.update(self.extr.save_notes_subjects(str(int(second_table[0])-2), second_table))
+
+			print(f'\n{notes}\n')
+		
 		except Exception as e:
 			print(e)
 
