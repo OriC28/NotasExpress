@@ -15,12 +15,9 @@ class Subject:
         self.name = name
 
 class Gradings(Subject):
-    def __init__(self, name=str, first_moment=float,second_moment=float, third_moment=float,definitive_grade=float):
+    def __init__(self, name=str, moment_grades=list):
         super().__init__(name)
-        self.first_moment = first_moment
-        self.second_moment = second_moment
-        self.third_moment = third_moment
-        self.definitive_grade = definitive_grade
+        self.moment_grades = moment_grades
 
 
 
