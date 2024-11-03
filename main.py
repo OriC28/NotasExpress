@@ -37,14 +37,14 @@ class Generator:
 		try:
 			sheet_choiced = self.program.CbYearSection.currentIndex()
 			extraction = Extraction(self.file_path, sheet_choiced)
-	
+
 			first_table_position = extraction.find_start_end_table(14, 30) 
 			#second_table_position = self.e.find_start_end_table(31, 60)
-
-			first_table_notes = extraction.save_notes_subjects(14, first_table_position)
+			student_list = extraction.get_student_data(first_table_position[0], first_table_position[1])
+			student_list = extraction.save_student_notes(14, first_table_position, student_list)
 			#second_table_notes = self.e.save_notes_subjects(35, second_table_position)
 
-			print(first_table_notes)
+			print(student_list)
 		except Exception as e:
 			print(e)
 
