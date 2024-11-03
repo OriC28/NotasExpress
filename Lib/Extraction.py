@@ -61,13 +61,10 @@ class Extraction:
 		start = table_position[0]
 		end = table_position[1]
 		subjects = self.get_subjects(row_subjects)
-		for student in students:
-			for subject in subjects:
-				student.subjects_performance[subject.name] = Gradings(subject.name, None)
 		for i in range (int(start), int(end)+1):
 			j = 0
 			for subject in subjects:
-				students[i-int(start)].subjects_performance[subject.name].moment_grades = self.get_notes(i, COLUMNS[j])
+				students[i-int(start)].subjects_performance[subject.name] = Gradings (subject.name, self.get_notes(i, COLUMNS[j]))
 				j += 1
 		return students 
 
