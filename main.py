@@ -1,59 +1,84 @@
-from openpyxl import load_workbook
-from threading import Thread
-
 from PyQt6.QtWidgets import QWidget, QApplication, QPushButton, QMessageBox, QFileDialog
 from PyQt6 import uic, QtGui
 
 from Lib.Extraction import Extraction
+import Lib.WriteFile
+import Lib.SetExtraction
 
 class Generator:
 	def __init__(self):
 		self.file_path = None
-		self.extr = None
-		self.workbook = None
 		self.message = QMessageBox 
 		self.program = uic.loadUi("GUI/GUI.ui")
+
+		# ESTABLECIENDO EL LOGO
+		imagen = QtGui.QPixmap("./Resource/LOGO.png")
+		self.program.logo.setScaledContents(True)
+		self.program.logo.resize(imagen.width(), imagen.height())
+		self.program.logo.setPixmap(imagen)
+
 		self.init_gui()
 
 	def init_gui(self):
 		self.program.AddButton.clicked.connect(self.select_excel_file)
-		self.program.CbYearSection.currentIndexChanged.connect(self.get_notes)
+		self.program.GenerateButton.clicked.connect(self.generate_notes)
 		self.program.show()
-
+	
 	def select_excel_file(self):
 		try:
+			self.program.CbYearSection.clear()
+			self.program.CbYearSection.setEnabled(False)
+			self.program.DirectoryEntry.setText('')
 			file_path, filter = QFileDialog.getOpenFileName(self.program, 'Open file', '', 'Excel files (*.xlsx)')
 			if file_path:
-				self.file_path = file_path
+				if self.show_dialog():
+					self.file_path = file_path
+					self.program.DirectoryEntry.setText(file_path)
 
-				self.workbook = load_workbook(file_path, data_only=True) # CARGANDO ARCHIVO EXCEL
+					extraction = Extraction(self.file_path)
 
-				self.program.CbYearSection.addItems(self.workbook.sheetnames)
+					self.program.CbYearSection.addItems(extraction.sheets)
+					self.program.CbYearSection.setEnabled(True)
+					del extraction
+			else:
+				self.message.warning(self.program, "Archivo no encontrado", f"No se ha seleccionado ningún archivo.", QMessageBox.StandardButton.Ok)
+
+		except Exception as e:
+			self.message.warning(self.program, "Warning", f"{e}", QMessageBox.StandardButton.Ok)
+
+	#def validate_fields(mention)
+
+	def show_dialog(self):
+		answer = self.message.question(self.program, "Question", "¿Está seguro de generar estos boletines?",
+					QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+		return True if answer == 16384 else False	
 			
-				self.program.DirectoryEntry.setText(file_path)
-				self.program.CbYearSection.setEnabled(True)
-
-		except Exception as e:
-			print(e)
-
-	def get_notes(self):
+	def generate_notes(self):
 		try:
-			sheet_choiced = self.program.CbYearSection.currentIndex()
+			index_choiced = self.program.CbYearSection.currentIndex()
 
-			self.extr = Extraction(self.workbook, sheet_choiced)
+			if index_choiced!=-1:
+				
+				# DATOS EXTRAÍDOS
+				total_students, school_year, subjects, name_folder = Lib.SetExtraction.set_extraction(self.file_path, index_choiced)
+				
+				mention = self.program.CbMention.currentText()
+				guide_teacher = self.program.GuideTeacherEntry.text()
+				date = self.program.DateEntry.text()
+				sheet_choiced_name = self.program.CbYearSection.currentText()
 
-			first_table = self.extr.find_start_end_table(14, 30)
+				Lib.WriteFile.create_folders(name_folder)
 
-			second_table = self.extr.find_start_end_table(int(first_table[1])+1, 60)
+				for student in total_students:
+					Lib.WriteFile.create_excel_boletin(student, school_year, subjects, mention, sheet_choiced_name, guide_teacher, date, name_folder)
 
-			notes = self.extr.save_notes_subjects(14, first_table)
+				Lib.WriteFile.create_pdfs_boletin(name_folder)
 
-			notes.update(self.extr.save_notes_subjects(str(int(second_table[0])-2), second_table))
+			else:
+				self.message.warning(self.program, "Warning", f"No ha seleccionado ningún archivo.", QMessageBox.StandardButton.Ok)
 
-			print(f'\n{notes}\n')
-		
 		except Exception as e:
-			print(e)
+			self.message.warning(self.program, "Warning", f"{e}", QMessageBox.StandardButton.Ok)
 
 if __name__ == '__main__':
 	app = QApplication([])

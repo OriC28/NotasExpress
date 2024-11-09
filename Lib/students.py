@@ -3,24 +3,27 @@ class Student:
         self.cedula=cedula
         self.name=name
         self.last_name = last_name
+        self.subjects_performance = {}
     def __str__(self):
-        return str(self.name)
-
+        return str(self.name + "-" + str(self.subjects_performance))
+    def set_value(self, key, value):
+        self.my
     __repr__ = __str__
 
 class Subject:
-    def __init__(self, name=str):
+    def __init__(self, name):
         #Quiero colocar aquí un promedio general de cada matería, 
         # asi en los boletines se puede colocar el promedio general por asignatura
         self.name = name
+   
 
 class Gradings(Subject):
-    def __init__(self, name=str, first_moment=float,second_moment=float, third_moment=float,definitive_grade=float):
+    def __init__(self, name, moment_grades=list):
         super().__init__(name)
-        self.first_moment = first_moment
-        self.second_moment = second_moment
-        self.third_moment = third_moment
-        self.definitive_grade = definitive_grade
+        self.moment_grades = moment_grades
+    def __str__(self):
+        return str(str(self.moment_grades))
 
+    __repr__ = __str__
 
 
