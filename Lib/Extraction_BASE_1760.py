@@ -1,6 +1,6 @@
 from openpyxl import load_workbook
 import re
-from Lib.students import Student, Gradings, Subject
+from Lib.students import Student
 
 COLUMNS = [["F","G","H","I"],["J","K","L","M"],["N","O","P","Q"],["R","S","T","U"],["V","W","X","Y"]]
 
@@ -25,7 +25,7 @@ class Extraction:
 
 	def get_student_data(self, start, end):
 		students_list = []
-		for row in range(int(start), int(end)+1):
+		for row in range(start, end+1):
 			new_student = Student()
 			for column in 'CDE':
 				row_data = self.sheet_choiced[str(column+str(row))].value
@@ -41,10 +41,10 @@ class Extraction:
 		return students_list
 
 	def get_subjects(self, row):
-		subjects = []
+		subjects = {}
 		for i in self.sheet_choiced[row]:
 			if i.value is not None and i.value!="Promedios":
-				subjects.append(Subject(i.value))
+				subjects.update({i.value: None})
 		return subjects
 
 	def get_notes(self, start, end, notes):
@@ -83,3 +83,18 @@ class Extraction:
 		year = re.search(r'(\d{4}-\d{4})', row_to_search)
 		return year.group()
 
+'''
+e = Extraction("NOTAS.xlsx", 5) # LOS PARÁMETROS DE Extraction LOS PROPORCIONARÁ LA GUI
+
+# POSICIONES APROXIMADAS PARA OBTENER LAS REALES
+first_table_position = e.find_start_end_table(14, 30) 
+second_table_position = e.find_start_end_table(31, 60)
+
+# MATERIAS CON SUS RESPECTIVAS NOTAS
+first_table_notes = e.save_notes_subjects(14, first_table_position)
+second_table_notes = e.save_notes_subjects(35, second_table_position)
+
+# DATOS DE LOS ESTUDIANTES (CEDULAS, NOMBRES Y APELLIDOS)
+students_data = e.get_student_data(int(first_table_position[0]), int(first_table_position[1]))
+
+'''

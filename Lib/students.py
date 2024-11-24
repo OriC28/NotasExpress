@@ -20,10 +20,6 @@ class Subject:
 class Gradings(Subject):
     def __init__(self, name, moment_grades=list):
         super().__init__(name)
-        self.moment_grades = moment_grades
-    def __str__(self):
-        return str(self.name + '-' + str(self.moment_grades))
 
-    __repr__ = __str__
 
 

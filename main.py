@@ -1,52 +1,72 @@
 from PyQt6.QtWidgets import QWidget, QApplication, QPushButton, QMessageBox, QFileDialog
 from PyQt6 import uic, QtGui
-from threading import Thread
+
 from Lib.Extraction import Extraction
+import Lib.WriteFile
+import Lib.SetExtraction
 
 class Generator:
 	def __init__(self):
 		self.file_path = None
 		self.message = QMessageBox 
 		self.program = uic.loadUi("GUI/GUI.ui")
+
+		# ESTABLECIENDO EL LOGO
+		imagen = QtGui.QPixmap("./Resource/LOGO.png")
+		self.program.logo.setScaledContents(True)
+		self.program.logo.resize(imagen.width(), imagen.height())
+		self.program.logo.setPixmap(imagen)
+
 		self.init_gui()
 
 	def init_gui(self):
 		self.program.AddButton.clicked.connect(self.select_excel_file)
-		self.program.CbYearSection.currentIndexChanged.connect(self.get_notes)
+		self.program.GenerateButton.clicked.connect(self.generate_notes)
 		self.program.show()
-
+	
 	def select_excel_file(self):
 		try:
+			self.program.CbYearSection.clear()
+			self.program.CbYearSection.setEnabled(False)
+			self.program.DirectoryEntry.setText('')
 			file_path, filter = QFileDialog.getOpenFileName(self.program, 'Open file', '', 'Excel files (*.xlsx)')
 			if file_path:
-				self.file_path = file_path
-				self.program.DirectoryEntry.setText(file_path)
+				if self.show_dialog():
+					self.file_path = file_path
+					self.program.DirectoryEntry.setText(file_path)
 
-				extraction = Extraction(self.file_path)
+					extraction = Extraction(self.file_path)
 
-				self.program.CbYearSection.addItems(extraction.sheets)
-				self.program.CbYearSection.setEnabled(True)
+					self.program.CbYearSection.addItems(extraction.sheets)
+					self.program.CbYearSection.setEnabled(True)
+					del extraction
+			else:
+				self.message.warning(self.program, "Archivo no encontrado", f"No se ha seleccionado ningún archivo.", QMessageBox.StandardButton.Ok)
 
 		except Exception as e:
-			print(e)
+			self.message.warning(self.program, "Warning", f"{e}", QMessageBox.StandardButton.Ok)
 
-		finally:
-			del extraction
+	#def validate_fields(mention)
+
+	def show_dialog(self):
+		answer = self.message.question(self.program, "Question", "¿Está seguro de generar estos boletines?",
+					QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+		return True if answer == 16384 else False	
 			
-	def get_notes(self):
+	def generate_notes(self):
 		try:
 			sheet_choiced = self.program.CbYearSection.currentIndex()
 			extraction = Extraction(self.file_path, sheet_choiced)
-
+	
 			first_table_position = extraction.find_start_end_table(14, 30) 
 			#second_table_position = self.e.find_start_end_table(31, 60)
-			student_list = extraction.get_student_data(first_table_position[0], first_table_position[1])
-			student_list = extraction.save_student_notes(14, first_table_position, student_list)
+
+			first_table_notes = extraction.save_notes_subjects(14, first_table_position)
 			#second_table_notes = self.e.save_notes_subjects(35, second_table_position)
 
-			print(student_list)
+			print(first_table_notes)
 		except Exception as e:
-			print(e)
+			self.message.warning(self.program, "Warning", f"{e}", QMessageBox.StandardButton.Ok)
 
 if __name__ == '__main__':
 	app = QApplication([])
