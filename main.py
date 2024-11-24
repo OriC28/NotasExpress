@@ -55,16 +55,28 @@ class Generator:
 			
 	def generate_notes(self):
 		try:
-			sheet_choiced = self.program.CbYearSection.currentIndex()
-			extraction = Extraction(self.file_path, sheet_choiced)
-	
-			first_table_position = extraction.find_start_end_table(14, 30) 
-			#second_table_position = self.e.find_start_end_table(31, 60)
+			index_choiced = self.program.CbYearSection.currentIndex()
 
-			first_table_notes = extraction.save_notes_subjects(14, first_table_position)
-			#second_table_notes = self.e.save_notes_subjects(35, second_table_position)
+			if index_choiced!=-1:
+				
+				# DATOS EXTRAÍDOS
+				total_students, school_year, subjects, name_folder = Lib.SetExtraction.set_extraction(self.file_path, index_choiced)
+				
+				mention = self.program.CbMention.currentText()
+				guide_teacher = self.program.GuideTeacherEntry.text()
+				date = self.program.DateEntry.text()
+				sheet_choiced_name = self.program.CbYearSection.currentText()
 
-			print(first_table_notes)
+				Lib.WriteFile.create_folders(name_folder)
+
+				for student in total_students:
+					Lib.WriteFile.create_excel_boletin(student, school_year, subjects, mention, sheet_choiced_name, guide_teacher, date, name_folder)
+
+				Lib.WriteFile.create_pdfs_boletin(name_folder)
+
+			else:
+				self.message.warning(self.program, "Warning", f"No ha seleccionado ningún archivo.", QMessageBox.StandardButton.Ok)
+
 		except Exception as e:
 			self.message.warning(self.program, "Warning", f"{e}", QMessageBox.StandardButton.Ok)
 
