@@ -28,15 +28,15 @@ class Extraction:
 		for row in range(int(start), int(end)+1):
 			new_student = Student()
 			for column in 'CDE':
-				row_data = self.sheet_choiced[str(column+str(row))].value
-				if row_data != '//' and row_data:
+				cell_data = self.sheet_choiced[str(column+str(row))].value
+				if cell_data!='**' and cell_data:
 					match column:
-						case 'C':
-							new_student.cedula = row_data
+						case'C':
+							new_student.cedula = cell_data
 						case 'D':
-							new_student.last_name = row_data
-						case 'E':
-							new_student.name = row_data
+							new_student.last_name = cell_data
+						case'E':
+							new_student.name = cell_data
 			students_list.append(new_student)
 		return students_list
 
@@ -47,36 +47,29 @@ class Extraction:
 				subjects.append(Subject(i.value))
 		return subjects
 
-	def get_notes(self, start, end, notes):
-		moments = []
-		note = []
-		for i in self.sheet_choiced[start: end]:
-			for j in i:
-				if j.value is None:
-					j.value = 0 
-				note.append(round(j.value, 2))
-				if len(note)==4:
-					moments.append(note) 
-					note = []
-				if len(moments) == len(self.get_student_data(int(start[1:]), int(end[1:]))): 
-					notes.append(moments)
-					moments = []
+	def get_notes(self, row, block):
+		notes = []
+		for letter in block:
+			if self.sheet_choiced[letter + str(row)].value is None:
+				note = self.sheet_choiced[letter + str(row)].value  = '**'
+			else:
+				note = round(float(self.sheet_choiced[letter + str(row)].value), 2)
+			notes.append(note)
+		return notes
 
-	def save_notes_subjects(self, row_subjects, table_position):
+
+	def save_student_notes(self, row_subjects, table_position, students):
 		i = 0
 		notes = []
 		start = table_position[0]
 		end = table_position[1]
 		subjects = self.get_subjects(row_subjects)
-		for block in COLUMNS[:len(subjects)]:
-			self.get_notes(block[0]+start, block[-1]+end, notes)
-			while(i<len(notes)): 
-				if i == len(subjects): 
-					break
-				else:
-					subjects[list(subjects.keys())[i]] = notes[i] 
-					i+=1
-		return subjects 
+		for i in range (int(start), int(end)+1):
+			j = 0
+			for subject in subjects:
+				students[i-int(start)].subjects_performance[subject.name] = Gradings(subject.name, self.get_notes(i, COLUMNS[j]))
+				j += 1
+		return students 
 
 	def get_school_year(self):
 		row_to_search = self.sheet_choiced["B11":"B11"][0][0].value
