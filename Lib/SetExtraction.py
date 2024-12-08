@@ -11,6 +11,6 @@ def set_extraction(file_path, index_choiced):
 	total_students = extraction.save_student_notes(int(second_table_position[0])-2, second_table_position, students)
 	school_year = extraction.get_school_year()
 	subjects = extraction.get_subjects(14) + extraction.get_subjects(int(second_table_position[0])-2)
-	name_folder = extraction.sheets[index_choiced].replace('"', "")
+	#name_folder = extraction.sheets[index_choiced].replace('"', "")
 
-	return total_students, school_year, subjects, name_folder
+	return total_students, school_year, subjects

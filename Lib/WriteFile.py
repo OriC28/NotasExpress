@@ -1,25 +1,26 @@
 from openpyxl import load_workbook
 import os
 
-from Lib.Extraction import Extraction
 from Lib.GetPDF import run_export_in_background
 
-def create_folders(name_folder):
-	directory = f"./{name_folder}"
-	if not os.path.exists(directory):
-		os.mkdir(directory) # CREA EL DIRECTORIO PRINCIPAL 
-		os.mkdir(f"{directory}/PDF") # CREA UN SUBDIRECTORIO LLAMADO "PDF"
-		os.mkdir(f"{directory}/EXCEL")  # CREA UN SUBDIRECTORIO LLAMADO "EXCEL"
+def create_folders(path):
+	created = False
+	if not os.path.exists(path):
+		os.mkdir(path) # CREA EL DIRECTORIO PRINCIPAL 
+		os.mkdir(os.path.join(path, "PDF")) # CREA UN SUBDIRECTORIO LLAMADO "PDF"
+		os.mkdir(os.path.join(path, "EXCEL"))  # CREA UN SUBDIRECTORIO LLAMADO "EXCEL"
+		created = True
+	return created
 
-def create_pdfs_boletin(name_folder):
-	files = [i for i in os.listdir(name_folder + "/EXCEL") if i.endswith(".xlsx")] # ARCHIVOS DENTRO DEL SUBDIRECTORIO "EXCEL"
+def create_pdfs_boletin(path):
+	files = [i for i in os.listdir(os.path.join(path, 'EXCEL')) if i.endswith(".xlsx")] # ARCHIVOS DENTRO DEL SUBDIRECTORIO "EXCEL"
 	for file in files:
-		out_file = f"{os.getcwd()}/{name_folder}/PDF/{file.split('.')[0]}" # EJEMPLO: /DIRECTORIO_RAIZ/1ERO A/PDF/33725588.xlsx
-		input_file = f"{os.getcwd()}/{name_folder}/EXCEL/{file}" # EJEMPLO: /DIRECTORIO_RAIZ/1ERO A/EXCEL/32689581.xlsx
+		output_file = os.path.join(path, 'PDF', f"{file.split('.')[0]}.pdf") # EJEMPLO: /DIRECTORIO_RAIZ/1ERO A/PDF/33725588.xlsx
+		input_file = os.path.join(path, 'EXCEL', file) # EJEMPLO: /DIRECTORIO_RAIZ/1ERO A/EXCEL/32689581.xlsx
 		
-		run_export_in_background(input_file, f'{out_file}.pdf')
+		run_export_in_background(input_file, output_file)
 
-def create_excel_boletin(student, school_year, subjects, mention, sheet_choiced, guide_teacher, date, name_folder):
+def create_excel_boletin(student, school_year, subjects, mention, sheet_choiced, guide_teacher, date, path):
 	row = 9
 	def_general = 0
 	boletin = load_workbook('./Resource/BOLETIN.xlsx', data_only=True)
@@ -60,6 +61,6 @@ def create_excel_boletin(student, school_year, subjects, mention, sheet_choiced,
 		# PROMEDIO GENERAL DEL ESTUDIANTE
 		sheet['K20'].value = str(round(def_general/len(subjects), 2))
 			
-		boletin.save(f'{name_folder}/EXCEL/{student.cedula}.xlsx')
+		boletin.save(os.path.join(path, 'EXCEL', f'{student.cedula}.xlsx'))
 		boletin.close()
 	

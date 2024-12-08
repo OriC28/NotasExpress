@@ -53,7 +53,7 @@ class Extraction:
 			if self.sheet_choiced[letter + str(row)].value is None:
 				note = self.sheet_choiced[letter + str(row)].value  = '**'
 			else:
-				note = int(self.sheet_choiced[letter + str(row)].value)
+				note = round(float(self.sheet_choiced[letter + str(row)].value), 2)
 			notes.append(note)
 		return notes
 

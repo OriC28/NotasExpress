@@ -7,7 +7,6 @@ def save_pdf(input_path, output_path):
 	try:
 		excel = client.Dispatch("Excel.Application") # ABRIR LA APLICACION EXCEL
 		sheets = excel.Workbooks.Open(input_path)  # ABRIR WOORKBOOK
-		number_sheets = sheets.Worksheets.Count
 		sheet = sheets.Worksheets[0]
 		excel.DisplayAlerts = False
 
