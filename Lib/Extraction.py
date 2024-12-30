@@ -37,6 +37,7 @@ class Extraction:
 							new_student.last_name = cell_data
 						case'E':
 							new_student.name = cell_data
+			
 			students_list.append(new_student)
 		return students_list
 

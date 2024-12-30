@@ -12,14 +12,18 @@ def create_folders(path):
 		created = True
 	return created
 
-def create_pdfs_boletin(path):
+def create_pdfs_boletin(path, loadingScreen, enableButtonFunc=None):
 	files = [i for i in os.listdir(os.path.join(path, 'EXCEL')) if i.endswith(".xlsx")] # ARCHIVOS DENTRO DEL SUBDIRECTORIO "EXCEL"
+	loadingScreen.assign_file_amount(len(files))
 	for file in files:
 		output_file = os.path.join(path, 'PDF', f"{file.split('.')[0]}.pdf") # EJEMPLO: /DIRECTORIO_RAIZ/1ERO A/PDF/33725588.xlsx
 		input_file = os.path.join(path, 'EXCEL', file) # EJEMPLO: /DIRECTORIO_RAIZ/1ERO A/EXCEL/32689581.xlsx
 		
-		run_export_in_background(input_file, output_file)
-
+		input_file = input_file.replace("/", '\\')
+		output_file = output_file.replace('/', '\\')
+		loadingScreen.get_file_direction_txt()
+		run_export_in_background(input_file, output_file, loadingScreen.progress_on_file)
+	
 def create_excel_boletin(student, school_year, subjects, mention, sheet_choiced, guide_teacher, date, path):
 	row = 9
 	def_general = 0

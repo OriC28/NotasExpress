@@ -405,6 +405,9 @@ padding: 5px 10px;</string>
        </item>
        <item>
         <widget class="QTableWidget" name="Table">
+         <property name="contextMenuPolicy">
+          <enum>Qt::ActionsContextMenu</enum>
+         </property>
          <attribute name="horizontalHeaderDefaultSectionSize">
           <number>95</number>
          </attribute>
