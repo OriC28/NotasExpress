@@ -147,8 +147,8 @@ class Generator:
 								wf.create_excel_boletin(student, school_year, subjects, mention, sheet_choiced_name, guide_teacher, date, path)
 							wf.create_pdfs_boletin(path, self.loading, self.Enable_GenerateButton)
 					else:
-						self.message.warning(self.program, "Ruta destino no encontrada", "Error. No se ha seleccionado una ruta para guardar los boletines.", QMessageBox.StandardButton.Ok)
 						self.loading.close()
+						self.message.warning(self.program, "Ruta destino no encontrada", "Error. No se ha seleccionado una ruta para guardar los boletines.", QMessageBox.StandardButton.Ok)
 						self.Enable_GenerateButton()
 				else:
 					self.message.warning(self.program, "Warning", "Por favor seleccione un archivo para generar los boletines.", QMessageBox.StandardButton.Ok)
