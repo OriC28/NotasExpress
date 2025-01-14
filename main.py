@@ -115,6 +115,7 @@ class Generator:
 		guide_teacher = self.program.GuideTeacherEntry.text()
 		if guide_teacher == '': raise Exception('El campo de Profesor guía debe ser llenado para la generación de los archivos.')
 		date = self.program.DateEntry.text()
+		if self.file_path == None: raise Exception('Por favor seleccione un archivo para generar los boletines.')
 		if date == '': raise Exception ('El campo de fecha de entrega debe ser llenado para la generación de los archivos.')
 		if not re.match('^[a-zA-Z\\s]+$', guide_teacher):
 			raise Exception('Solo se pueden colocar letras como carácteres en el campo de profesor guía. Por favor, cambialos para continuar')
