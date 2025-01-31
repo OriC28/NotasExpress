@@ -6,14 +6,21 @@ Autor: Oriana Colina, Carlos Noguera, Genesys Alvarado, Ángel Colina y María Q
 Fecha: 15 de enero de 2025
 """
 
-"""
-Clase que permite crear un estudiante con sus respectivas notas.
+# NotasExpress
+# Copyright (C) 2025 Escuela Técnica Industrial Nacional Capitán Giovanni Ferrareis 
+# Licenciado bajo la GNU GPLv3. Ver <https://www.gnu.org/licenses/>.
 
-@param cedula (str): Cédula del estudiante.
-@param name (str): Nombre del estudiante.
-@param last_name (str): Apellido del estudiante.
-"""
 class Student:
+    """Clase de tipo estudiante, que almacena los datos correspondientes
+    con sus respectivas notas.
+    
+    
+    Attributes:
+        cedula (str): [Cédula]
+        name (str) : [Nombre]
+        last_name (str): [Apellido]
+        subjects_performance (dict): [Notas]
+        """
     def __init__(self,cedula=str(''),name=str(''),last_name=str('')):
         self.cedula=cedula
         self.name=name
@@ -26,18 +33,23 @@ class Student:
     __repr__ = __str__
 
 class Subject:
+    """Clase que almacena el nombre de una asignatura.
+
+    Attributes:
+    name (str): Nombre de la materia.
+    """
     def __init__(self, name):
-        #Quiero colocar aquí un promedio general de cada matería, 
-        # asi en los boletines se puede colocar el promedio general por asignatura
         self.name = name
    
-"""
-Clase que permite crear las notas de los estudiantes en cada momento de evaluación.
 
-@param name (str): Nombre de la materia.
-@param moment_grades (list): Lista de notas de los estudiantes.
-"""
 class Gradings(Subject):
+    """Clase que permite crear las notas de los estudiantes en cada momento de evaluación.
+
+
+    Attributes:
+    name (str): Nombre de la materia.
+    moment_grades (list): Lista de notas de los estudiantes.
+    """
     def __init__(self, name: str, moment_grades=list):
         super().__init__(name)
         self.moment_grades = moment_grades

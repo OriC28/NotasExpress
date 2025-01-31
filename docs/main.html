@@ -1,0 +1,662 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1">
+<meta name="generator" content="pdoc3 0.11.5">
+<title>main API documentation</title>
+<meta name="description" content="Archivo: main.py
+Descripción: Módulo principal para la generación de boletines de calificaciones.
+Autor: Oriana Colina, Carlos Noguera, Genesys …">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/sanitize.min.css" integrity="sha512-y1dtMcuvtTMJc1yPgEqF0ZjQbhnc/bFhyvIyVNb9Zk5mIGtqVaAB1Ttl28su8AvFMOY0EwRbAe+HCLqj6W7/KA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/13.0.0/typography.min.css" integrity="sha512-Y1DYSb995BAfxobCkKepB1BqJJTPrOp3zPL74AWFugHHmmdcvO+C48WLrUOlhGMc0QG7AE3f7gmvvcrmX2fDoA==" crossorigin>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/default.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:1.5em;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:2em 0 .50em 0}h3{font-size:1.4em;margin:1.6em 0 .7em 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .2s ease-in-out}a:visited{color:#503}a:hover{color:#b62}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900;font-weight:bold}pre code{font-size:.8em;line-height:1.4em;padding:1em;display:block}code{background:#f3f3f3;font-family:"DejaVu Sans Mono",monospace;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source > summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible;min-width:max-content}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em 1em;margin:1em 0}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul ul{padding-left:1em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js" integrity="sha512-D9gUyxqja7hBtkWpPWGt9wfbfaMGVt9gnyCvYa+jojwwPHLCzUm5i8rpk7vD7wNee9bA35eYIjobYPaQuKS1MQ==" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => {
+hljs.configure({languages: ['bash', 'css', 'diff', 'graphql', 'ini', 'javascript', 'json', 'plaintext', 'python', 'python-repl', 'rust', 'shell', 'sql', 'typescript', 'xml', 'yaml']});
+hljs.highlightAll();
+/* Collapse source docstrings */
+setTimeout(() => {
+[...document.querySelectorAll('.hljs.language-python > .hljs-string')]
+.filter(el => el.innerHTML.length > 200 && ['"""', "'''"].includes(el.innerHTML.substring(0, 3)))
+.forEach(el => {
+let d = document.createElement('details');
+d.classList.add('hljs-string');
+d.innerHTML = '<summary>"""</summary>' + el.innerHTML.substring(3);
+el.replaceWith(d);
+});
+}, 100);
+})</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>main</code></h1>
+</header>
+<section id="section-intro">
+<p>Archivo: main.py
+Descripción: Módulo principal para la generación de boletines de calificaciones.
+Autor: Oriana Colina, Carlos Noguera, Genesys Alvarado, Ángel Colina y María Quevedo.
+Fecha: 15 de enero de 2025</p>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="main.Generator"><code class="flex name class">
+<span>class <span class="ident">Generator</span></span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class Generator:
+        &#34;&#34;&#34;Clase para generar los boletines de calificaciones.
+
+        Attributes:
+        file_path (str): Ruta del archivo Excel.
+        save_path (str): Ruta de guardado de los boletines.
+        message (QMessageBox): Objeto de mensaje.
+        table (QTableWidget): Tabla de estudiantes.
+        program (QMainWindow): Programa principal.&#34;&#34;&#34;
+
+        def __init__(self):
+                &#34;&#34;&#34;Inicialización de la clase Generator.&#34;&#34;&#34;
+                self.file_path = None
+                self.save_path = None
+                self.message = QMessageBox 
+                self.table = QTableWidget
+                self.program = uic.loadUi(&#34;GUI/GUI.ui&#34;)
+                self.init_gui()
+                
+        def init_gui(self):
+                &#34;&#34;&#34;Inicializa la interfaz general de usuario cargada anteriormente.
+                
+                Establece el logo de la interfaz, conecta una multitud de señales, y muestra la ventana.&#34;&#34;&#34;
+                # ESTABLECIENDO EL LOGO
+                imagen = QtGui.QPixmap(&#34;./Resource/LOGO.png&#34;)
+                self.program.logo.setScaledContents(True)
+                self.program.logo.resize(imagen.width(), imagen.height())
+                self.program.logo.setPixmap(imagen)
+                self.program.setWindowIcon(QtGui.QIcon(&#39;Resource/icons/iconProgram.ico&#39;))
+                self.program.SelectButton.clicked.connect(self.select_excel_file)
+                self.program.SaveButton.clicked.connect(self.select_path_to_save)
+                self.program.GenerateButton.clicked.connect(self.generate_notes)
+                self.program.CbYearSection.currentIndexChanged.connect(self.fill_table)
+                self.program.show()
+
+        def select_path_to_save(self):
+                &#34;&#34;&#34;Obtiene la dirección deseada para guardar los archivos a generar ingresada por el usuario.&#34;&#34;&#34;
+                try:
+                        dir_path = QFileDialog.getExistingDirectory(parent=self.program, caption=&#34;Select directory&#34;,
+                                                                                                                        directory=os.path.expanduser(&#39;~&#39;),              
+                                                                                                                        options=QFileDialog.Option.DontUseNativeDialog)
+                        if dir_path:
+                                self.program.SaveButton.setEnabled(True)
+                                self.save_path = dir_path
+                                self.program.pathFolder.setText(self.save_path)
+
+                except Exception as e:
+                        self.message.warning(self.program, &#34;Error&#34;, f&#34;Ha ocurrido un error: {e}&#34;, QMessageBox.StandardButton.Ok)
+                        
+        def select_excel_file(self):
+                &#34;&#34;&#34;Obtiene la dirección del archivo Excel a ser procesado.
+                
+                En caso de que la dirección no exista, o sea inválido, arroja una excepción.&#34;&#34;&#34;
+                try:
+                        self.program.CbYearSection.clear()
+                        self.program.CbYearSection.setEnabled(False)
+                        self.program.pathFile.setText(&#39;&#39;)
+                        file_path, filter = QFileDialog.getOpenFileName(self.program, &#39;Open file&#39;, &#39;&#39;, &#39;Excel files (*.xlsx)&#39;)
+                        if file_path:
+                                if self.show_dialog():
+                                        self.file_path = file_path
+                                        self.program.pathFile.setText(file_path)
+
+                                        extraction = Extraction(self.file_path)
+                                        self.program.CbYearSection.addItems(extraction.sheets)
+                                        self.program.CbYearSection.setEnabled(True)
+                                        del extraction
+                                        self.program.SaveButton.setEnabled(True)
+                        else:
+                                self.message.warning(self.program, &#34;Archivo no encontrado&#34;, f&#34;No se ha seleccionado ningún archivo.&#34;, QMessageBox.StandardButton.Ok)
+
+                except Exception as e:
+                        self.message.warning(self.program, &#34;Warning&#34;, f&#34;{e}&#34;, QMessageBox.StandardButton.Ok)
+        
+        def fill_table (self):
+                &#34;&#34;&#34;Rellena los campos de la tabla de la interfaz de usuario con los datos obtenidos
+                de una de las hojas del archivo Excel insertado por el usuario.
+                
+                Esta función obtiene los datos de la sección elegida en la interfaz para rellenar la tabla.&#34;&#34;&#34;
+                try:
+                        index_choiced = self.program.CbYearSection.currentIndex()
+                        if index_choiced &lt; 0:
+                                index_choiced = 0
+
+                        data = set_extraction(self.file_path, index_choiced)
+                        
+                        if data != False:
+                                total_students = data[0]
+                                row_count = len(total_students) if len(total_students)&gt;=8 else 8
+                                self.program.Table.clearContents()
+                                self.program.Table.setRowCount(row_count)
+
+                                self.program.CbMention.setEnabled(True)
+                                self.program.CbMention.addItems([&#39;TRANSPORTE ACUÁTICO&#39;, &#39;METALMECÁNICA&#39;, &#39;METALMECÁNICA Y NAVAL&#39;, &#39;MECÁNICA DE MANTENIMIENTO INDUSTRIAL&#39;])
+                                i=0
+
+                                for student in total_students:
+                                        if (student.name):
+                                                sum_notes = 0
+                                                for subject in student.subjects_performance.keys():
+                                                        notes = student.subjects_performance[subject]
+                                                        sum_notes += notes.moment_grades[3]
+
+                                                average_score = round (sum_notes/len(student.subjects_performance.keys()),2)
+                                                full_item =[str(i+1),str(student.cedula), str(student.name), str(student.last_name),str(average_score)]
+                                                j = 0
+                                                for data in full_item:
+                                                        self.program.Table.setItem(i,j,QTableWidgetItem(data))
+                                                        j +=1
+                                                i += 1
+                        else:
+                                self.program.CbYearSection.clear()
+                                self.program.CbMention.clear()
+                                self.program.CbYearSection.setEnabled(False)
+                                self.program.CbMention.setEnabled(False)
+                                self.program.Table.clearContents()
+                                
+                except Exception as e:
+                        self.message.warning(self.program, &#34;Error&#34;, f&#34;Ha ocurrido un error: {e}&#34;, QMessageBox.StandardButton.Ok)
+
+        def show_dialog(self):
+                &#34;&#34;&#34;Muestra un mensaje para asegurar que el usuario desea generar los boletines elegidos.&#34;&#34;&#34;
+                answer = self.message.question(self.program, &#34;Question&#34;, &#34;¿Está seguro de generar estos boletines?&#34;,
+                                        QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+                return True if answer == 16384 else False       
+        
+        def validate_fields(self):
+                &#34;&#34;&#34;Valida todos los campos de la interfaz de usuario.
+                
+                En caso de no cumplir con las validaciones, arroja una excepción en el punto donde se detecte la primera
+                inconsistencia.
+                
+                Los campos validados son &#39;guide_teacher&#39; (campo de Profesor guía - str) y &#39;date&#39; (Fecha de expedición - str)
+                
+                Los campos son validados en base a las siguientes especificaciones:
+                &#39;guide_teacher&#39; : Campo NO vacío, solo puede contener letras, acentos y espacios.
+                &#39;date&#39; : Campo NO vacío, solo puede contener números y debe estar escrito en el formato dd/mm/aa&#34;&#34;&#34;
+
+                guide_teacher = self.program.GuideTeacherEntry.text()
+                date = self.program.DateEntry.text()
+
+                if guide_teacher == &#39;&#39;:
+                        raise Exception(&#39;El campo de Profesor guía debe ser llenado para la generación de los archivos.&#39;)
+                
+                if date == &#39;&#39;: 
+                        raise Exception (&#39;El campo de fecha de entrega debe ser llenado para la generación de los archivos.&#39;)
+                
+                if not re.match(&#34;^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ&#39;\\s]+$&#34;, guide_teacher):
+                        raise Exception(&#39;Solo se pueden colocar letras como carácteres en el campo de profesor guía. Por favor, cambialos para continuar&#39;)
+                
+                elif not re.match(&#34;^([1-9]|[12][0-9]|3[01])\\/([1-9]|0[1-9]|1[0-2])\\/(19|20)\\d{2}$&#34;, date):
+                        raise Exception(&#39;Asegúrate de que la fecha está bien escrita, debe seguir el formato: &#34;día/mes/año&#34; .&#39;)
+
+        
+        def generate_notes(self):
+                &#34;&#34;&#34;Genera las notas de la hoja del archivo Excel seleccionado.
+                
+                Para su funcionamiento es necesario un hilo secundario para la generación de los
+                archivos PDF y la pantalla de carga.
+                
+                También, es necesario que la aplicación Excel esté cerrada para su funcionamiento
+                (se arroja una advertencia en caso contrario), además de que los campos estén validados.
+                &#34;&#34;&#34;
+                self.loading = LoadingScreen(self.Finished_Generation_MSGBox(), self.Enable_GenerateButton)
+
+                try:
+                        if check_excel_running():
+                                self.loading.close()
+                                raise Exception(&#34;Se ha detectado que el programa Excel está abierto, por favor ciérrelo para continuar.&#34;)
+
+                        index_choiced = self.program.CbYearSection.currentIndex()
+                        self.validate_fields()
+
+                        if index_choiced ==-1:
+                                self.loading.close()
+                                raise Exception(&#34;Si ha seleccionado un archivo incorrecto no será posible continuar. Por favor seleccione un archivo adecuado.&#34;)
+                        
+                        self.Enable_GenerateButton()
+                        self.loading.show()
+                        data = set_extraction(self.file_path, index_choiced)
+
+                        if data != False:
+                                self.Enable_GenerateButton()
+                                self.program.GenerateButton.setEnabled(False)
+                                total_students, school_year, subjects = data
+                                sheet_choiced_name = self.program.CbYearSection.currentText()
+                                mention = self.program.CbMention.currentText()
+                                guide_teacher = self.program.GuideTeacherEntry.text()
+                                date = self.program.DateEntry.text()
+                                name_folder = sheet_choiced_name.replace(&#39;&#34;&#39;, &#34;&#34;)
+                                
+                                if not self.save_path:
+                                        self.loading.close()
+                                        self.Enable_GenerateButton()
+                                        raise Exception(&#34;Error. No se ha seleccionado una ruta para guardar los boletines.&#34;)
+                                
+                                path = os.path.join(self.save_path, name_folder.replace(&#39; &#39;, &#34;_&#34;))
+                                self.Enable_GenerateButton()
+
+                                if wf.create_folders(path):
+                                        for student in total_students:
+                                                #GENERACIÓN DE ARCHIVOS EXCEL
+                                                wf.create_excel_boletin(student, school_year, subjects, mention, sheet_choiced_name, guide_teacher, date, path)
+                                                        
+                                        #HILO SECUNDARIO PARA GENERAR ARCHIVOS PDF
+                                        thread = threading.Thread(target=wf.create_pdfs_boletin,args=(path, self.loading))
+                                        thread.start()
+                        else:
+                                self.program.CbYearSection.clear()
+                                self.program.CbMention.clear()
+                                self.program.CbYearSection.setEnabled(False)
+                                self.program.CbMention.setEnabled(False)
+                                self.program.Table.clearContents()
+                                self.loading.close()
+                                raise Exception(&#34;Error. El archivo seleccionado no es una sabana de notas válida.&#34;)
+        
+                except Exception as e:
+                        self.loading.close()
+                        self.message.warning(self.program, &#34;Advertencia&#34;, f&#34;Ha ocurrido un error: {e}&#34;, QMessageBox.StandardButton.Ok)
+                        
+
+        def Finished_Generation_MSGBox(self):
+                &#34;&#34;&#34;Genera un mensaje que indica que la generación de archivos
+                ha finalizado correctamente.&#34;&#34;&#34;
+                msg_box = QMessageBox()
+                msg_box.setIcon(QMessageBox.Icon.Information)
+                msg_box.setText(&#34;Se han generado todos los archivos PDF correctamente.&#34;)
+                msg_box.setWindowTitle(&#34;¡Generación completada!&#34;)
+                msg_box.setStandardButtons(QMessageBox.StandardButton.Ok)
+                return msg_box
+        
+        def Enable_GenerateButton(self):
+                &#34;&#34;&#34;Habilita el botón de generación nuevamente.&#34;&#34;&#34;
+                self.program.GenerateButton.setEnabled(True)</code></pre>
+</details>
+<div class="desc"><p>Clase para generar los boletines de calificaciones.</p>
+<p>Attributes:
+file_path (str): Ruta del archivo Excel.
+save_path (str): Ruta de guardado de los boletines.
+message (QMessageBox): Objeto de mensaje.
+table (QTableWidget): Tabla de estudiantes.
+program (QMainWindow): Programa principal.</p>
+<p>Inicialización de la clase Generator.</p></div>
+<h3>Methods</h3>
+<dl>
+<dt id="main.Generator.Enable_GenerateButton"><code class="name flex">
+<span>def <span class="ident">Enable_GenerateButton</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def Enable_GenerateButton(self):
+        &#34;&#34;&#34;Habilita el botón de generación nuevamente.&#34;&#34;&#34;
+        self.program.GenerateButton.setEnabled(True)</code></pre>
+</details>
+<div class="desc"><p>Habilita el botón de generación nuevamente.</p></div>
+</dd>
+<dt id="main.Generator.Finished_Generation_MSGBox"><code class="name flex">
+<span>def <span class="ident">Finished_Generation_MSGBox</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def Finished_Generation_MSGBox(self):
+        &#34;&#34;&#34;Genera un mensaje que indica que la generación de archivos
+        ha finalizado correctamente.&#34;&#34;&#34;
+        msg_box = QMessageBox()
+        msg_box.setIcon(QMessageBox.Icon.Information)
+        msg_box.setText(&#34;Se han generado todos los archivos PDF correctamente.&#34;)
+        msg_box.setWindowTitle(&#34;¡Generación completada!&#34;)
+        msg_box.setStandardButtons(QMessageBox.StandardButton.Ok)
+        return msg_box</code></pre>
+</details>
+<div class="desc"><p>Genera un mensaje que indica que la generación de archivos
+ha finalizado correctamente.</p></div>
+</dd>
+<dt id="main.Generator.fill_table"><code class="name flex">
+<span>def <span class="ident">fill_table</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def fill_table (self):
+        &#34;&#34;&#34;Rellena los campos de la tabla de la interfaz de usuario con los datos obtenidos
+        de una de las hojas del archivo Excel insertado por el usuario.
+        
+        Esta función obtiene los datos de la sección elegida en la interfaz para rellenar la tabla.&#34;&#34;&#34;
+        try:
+                index_choiced = self.program.CbYearSection.currentIndex()
+                if index_choiced &lt; 0:
+                        index_choiced = 0
+
+                data = set_extraction(self.file_path, index_choiced)
+                
+                if data != False:
+                        total_students = data[0]
+                        row_count = len(total_students) if len(total_students)&gt;=8 else 8
+                        self.program.Table.clearContents()
+                        self.program.Table.setRowCount(row_count)
+
+                        self.program.CbMention.setEnabled(True)
+                        self.program.CbMention.addItems([&#39;TRANSPORTE ACUÁTICO&#39;, &#39;METALMECÁNICA&#39;, &#39;METALMECÁNICA Y NAVAL&#39;, &#39;MECÁNICA DE MANTENIMIENTO INDUSTRIAL&#39;])
+                        i=0
+
+                        for student in total_students:
+                                if (student.name):
+                                        sum_notes = 0
+                                        for subject in student.subjects_performance.keys():
+                                                notes = student.subjects_performance[subject]
+                                                sum_notes += notes.moment_grades[3]
+
+                                        average_score = round (sum_notes/len(student.subjects_performance.keys()),2)
+                                        full_item =[str(i+1),str(student.cedula), str(student.name), str(student.last_name),str(average_score)]
+                                        j = 0
+                                        for data in full_item:
+                                                self.program.Table.setItem(i,j,QTableWidgetItem(data))
+                                                j +=1
+                                        i += 1
+                else:
+                        self.program.CbYearSection.clear()
+                        self.program.CbMention.clear()
+                        self.program.CbYearSection.setEnabled(False)
+                        self.program.CbMention.setEnabled(False)
+                        self.program.Table.clearContents()
+                        
+        except Exception as e:
+                self.message.warning(self.program, &#34;Error&#34;, f&#34;Ha ocurrido un error: {e}&#34;, QMessageBox.StandardButton.Ok)</code></pre>
+</details>
+<div class="desc"><p>Rellena los campos de la tabla de la interfaz de usuario con los datos obtenidos
+de una de las hojas del archivo Excel insertado por el usuario.</p>
+<p>Esta función obtiene los datos de la sección elegida en la interfaz para rellenar la tabla.</p></div>
+</dd>
+<dt id="main.Generator.generate_notes"><code class="name flex">
+<span>def <span class="ident">generate_notes</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def generate_notes(self):
+        &#34;&#34;&#34;Genera las notas de la hoja del archivo Excel seleccionado.
+        
+        Para su funcionamiento es necesario un hilo secundario para la generación de los
+        archivos PDF y la pantalla de carga.
+        
+        También, es necesario que la aplicación Excel esté cerrada para su funcionamiento
+        (se arroja una advertencia en caso contrario), además de que los campos estén validados.
+        &#34;&#34;&#34;
+        self.loading = LoadingScreen(self.Finished_Generation_MSGBox(), self.Enable_GenerateButton)
+
+        try:
+                if check_excel_running():
+                        self.loading.close()
+                        raise Exception(&#34;Se ha detectado que el programa Excel está abierto, por favor ciérrelo para continuar.&#34;)
+
+                index_choiced = self.program.CbYearSection.currentIndex()
+                self.validate_fields()
+
+                if index_choiced ==-1:
+                        self.loading.close()
+                        raise Exception(&#34;Si ha seleccionado un archivo incorrecto no será posible continuar. Por favor seleccione un archivo adecuado.&#34;)
+                
+                self.Enable_GenerateButton()
+                self.loading.show()
+                data = set_extraction(self.file_path, index_choiced)
+
+                if data != False:
+                        self.Enable_GenerateButton()
+                        self.program.GenerateButton.setEnabled(False)
+                        total_students, school_year, subjects = data
+                        sheet_choiced_name = self.program.CbYearSection.currentText()
+                        mention = self.program.CbMention.currentText()
+                        guide_teacher = self.program.GuideTeacherEntry.text()
+                        date = self.program.DateEntry.text()
+                        name_folder = sheet_choiced_name.replace(&#39;&#34;&#39;, &#34;&#34;)
+                        
+                        if not self.save_path:
+                                self.loading.close()
+                                self.Enable_GenerateButton()
+                                raise Exception(&#34;Error. No se ha seleccionado una ruta para guardar los boletines.&#34;)
+                        
+                        path = os.path.join(self.save_path, name_folder.replace(&#39; &#39;, &#34;_&#34;))
+                        self.Enable_GenerateButton()
+
+                        if wf.create_folders(path):
+                                for student in total_students:
+                                        #GENERACIÓN DE ARCHIVOS EXCEL
+                                        wf.create_excel_boletin(student, school_year, subjects, mention, sheet_choiced_name, guide_teacher, date, path)
+                                                
+                                #HILO SECUNDARIO PARA GENERAR ARCHIVOS PDF
+                                thread = threading.Thread(target=wf.create_pdfs_boletin,args=(path, self.loading))
+                                thread.start()
+                else:
+                        self.program.CbYearSection.clear()
+                        self.program.CbMention.clear()
+                        self.program.CbYearSection.setEnabled(False)
+                        self.program.CbMention.setEnabled(False)
+                        self.program.Table.clearContents()
+                        self.loading.close()
+                        raise Exception(&#34;Error. El archivo seleccionado no es una sabana de notas válida.&#34;)
+
+        except Exception as e:
+                self.loading.close()
+                self.message.warning(self.program, &#34;Advertencia&#34;, f&#34;Ha ocurrido un error: {e}&#34;, QMessageBox.StandardButton.Ok)</code></pre>
+</details>
+<div class="desc"><p>Genera las notas de la hoja del archivo Excel seleccionado.</p>
+<p>Para su funcionamiento es necesario un hilo secundario para la generación de los
+archivos PDF y la pantalla de carga.</p>
+<p>También, es necesario que la aplicación Excel esté cerrada para su funcionamiento
+(se arroja una advertencia en caso contrario), además de que los campos estén validados.</p></div>
+</dd>
+<dt id="main.Generator.init_gui"><code class="name flex">
+<span>def <span class="ident">init_gui</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def init_gui(self):
+        &#34;&#34;&#34;Inicializa la interfaz general de usuario cargada anteriormente.
+        
+        Establece el logo de la interfaz, conecta una multitud de señales, y muestra la ventana.&#34;&#34;&#34;
+        # ESTABLECIENDO EL LOGO
+        imagen = QtGui.QPixmap(&#34;./Resource/LOGO.png&#34;)
+        self.program.logo.setScaledContents(True)
+        self.program.logo.resize(imagen.width(), imagen.height())
+        self.program.logo.setPixmap(imagen)
+        self.program.setWindowIcon(QtGui.QIcon(&#39;Resource/icons/iconProgram.ico&#39;))
+        self.program.SelectButton.clicked.connect(self.select_excel_file)
+        self.program.SaveButton.clicked.connect(self.select_path_to_save)
+        self.program.GenerateButton.clicked.connect(self.generate_notes)
+        self.program.CbYearSection.currentIndexChanged.connect(self.fill_table)
+        self.program.show()</code></pre>
+</details>
+<div class="desc"><p>Inicializa la interfaz general de usuario cargada anteriormente.</p>
+<p>Establece el logo de la interfaz, conecta una multitud de señales, y muestra la ventana.</p></div>
+</dd>
+<dt id="main.Generator.select_excel_file"><code class="name flex">
+<span>def <span class="ident">select_excel_file</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def select_excel_file(self):
+        &#34;&#34;&#34;Obtiene la dirección del archivo Excel a ser procesado.
+        
+        En caso de que la dirección no exista, o sea inválido, arroja una excepción.&#34;&#34;&#34;
+        try:
+                self.program.CbYearSection.clear()
+                self.program.CbYearSection.setEnabled(False)
+                self.program.pathFile.setText(&#39;&#39;)
+                file_path, filter = QFileDialog.getOpenFileName(self.program, &#39;Open file&#39;, &#39;&#39;, &#39;Excel files (*.xlsx)&#39;)
+                if file_path:
+                        if self.show_dialog():
+                                self.file_path = file_path
+                                self.program.pathFile.setText(file_path)
+
+                                extraction = Extraction(self.file_path)
+                                self.program.CbYearSection.addItems(extraction.sheets)
+                                self.program.CbYearSection.setEnabled(True)
+                                del extraction
+                                self.program.SaveButton.setEnabled(True)
+                else:
+                        self.message.warning(self.program, &#34;Archivo no encontrado&#34;, f&#34;No se ha seleccionado ningún archivo.&#34;, QMessageBox.StandardButton.Ok)
+
+        except Exception as e:
+                self.message.warning(self.program, &#34;Warning&#34;, f&#34;{e}&#34;, QMessageBox.StandardButton.Ok)</code></pre>
+</details>
+<div class="desc"><p>Obtiene la dirección del archivo Excel a ser procesado.</p>
+<p>En caso de que la dirección no exista, o sea inválido, arroja una excepción.</p></div>
+</dd>
+<dt id="main.Generator.select_path_to_save"><code class="name flex">
+<span>def <span class="ident">select_path_to_save</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def select_path_to_save(self):
+        &#34;&#34;&#34;Obtiene la dirección deseada para guardar los archivos a generar ingresada por el usuario.&#34;&#34;&#34;
+        try:
+                dir_path = QFileDialog.getExistingDirectory(parent=self.program, caption=&#34;Select directory&#34;,
+                                                                                                                directory=os.path.expanduser(&#39;~&#39;),              
+                                                                                                                options=QFileDialog.Option.DontUseNativeDialog)
+                if dir_path:
+                        self.program.SaveButton.setEnabled(True)
+                        self.save_path = dir_path
+                        self.program.pathFolder.setText(self.save_path)
+
+        except Exception as e:
+                self.message.warning(self.program, &#34;Error&#34;, f&#34;Ha ocurrido un error: {e}&#34;, QMessageBox.StandardButton.Ok)</code></pre>
+</details>
+<div class="desc"><p>Obtiene la dirección deseada para guardar los archivos a generar ingresada por el usuario.</p></div>
+</dd>
+<dt id="main.Generator.show_dialog"><code class="name flex">
+<span>def <span class="ident">show_dialog</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def show_dialog(self):
+        &#34;&#34;&#34;Muestra un mensaje para asegurar que el usuario desea generar los boletines elegidos.&#34;&#34;&#34;
+        answer = self.message.question(self.program, &#34;Question&#34;, &#34;¿Está seguro de generar estos boletines?&#34;,
+                                QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No)
+        return True if answer == 16384 else False       </code></pre>
+</details>
+<div class="desc"><p>Muestra un mensaje para asegurar que el usuario desea generar los boletines elegidos.</p></div>
+</dd>
+<dt id="main.Generator.validate_fields"><code class="name flex">
+<span>def <span class="ident">validate_fields</span></span>(<span>self)</span>
+</code></dt>
+<dd>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def validate_fields(self):
+        &#34;&#34;&#34;Valida todos los campos de la interfaz de usuario.
+        
+        En caso de no cumplir con las validaciones, arroja una excepción en el punto donde se detecte la primera
+        inconsistencia.
+        
+        Los campos validados son &#39;guide_teacher&#39; (campo de Profesor guía - str) y &#39;date&#39; (Fecha de expedición - str)
+        
+        Los campos son validados en base a las siguientes especificaciones:
+        &#39;guide_teacher&#39; : Campo NO vacío, solo puede contener letras, acentos y espacios.
+        &#39;date&#39; : Campo NO vacío, solo puede contener números y debe estar escrito en el formato dd/mm/aa&#34;&#34;&#34;
+
+        guide_teacher = self.program.GuideTeacherEntry.text()
+        date = self.program.DateEntry.text()
+
+        if guide_teacher == &#39;&#39;:
+                raise Exception(&#39;El campo de Profesor guía debe ser llenado para la generación de los archivos.&#39;)
+        
+        if date == &#39;&#39;: 
+                raise Exception (&#39;El campo de fecha de entrega debe ser llenado para la generación de los archivos.&#39;)
+        
+        if not re.match(&#34;^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ&#39;\\s]+$&#34;, guide_teacher):
+                raise Exception(&#39;Solo se pueden colocar letras como carácteres en el campo de profesor guía. Por favor, cambialos para continuar&#39;)
+        
+        elif not re.match(&#34;^([1-9]|[12][0-9]|3[01])\\/([1-9]|0[1-9]|1[0-2])\\/(19|20)\\d{2}$&#34;, date):
+                raise Exception(&#39;Asegúrate de que la fecha está bien escrita, debe seguir el formato: &#34;día/mes/año&#34; .&#39;)</code></pre>
+</details>
+<div class="desc"><p>Valida todos los campos de la interfaz de usuario.</p>
+<p>En caso de no cumplir con las validaciones, arroja una excepción en el punto donde se detecte la primera
+inconsistencia.</p>
+<p>Los campos validados son 'guide_teacher' (campo de Profesor guía - str) y 'date' (Fecha de expedición - str)</p>
+<p>Los campos son validados en base a las siguientes especificaciones:
+'guide_teacher' : Campo NO vacío, solo puede contener letras, acentos y espacios.
+'date' : Campo NO vacío, solo puede contener números y debe estar escrito en el formato dd/mm/aa</p></div>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="main.Generator" href="#main.Generator">Generator</a></code></h4>
+<ul class="">
+<li><code><a title="main.Generator.Enable_GenerateButton" href="#main.Generator.Enable_GenerateButton">Enable_GenerateButton</a></code></li>
+<li><code><a title="main.Generator.Finished_Generation_MSGBox" href="#main.Generator.Finished_Generation_MSGBox">Finished_Generation_MSGBox</a></code></li>
+<li><code><a title="main.Generator.fill_table" href="#main.Generator.fill_table">fill_table</a></code></li>
+<li><code><a title="main.Generator.generate_notes" href="#main.Generator.generate_notes">generate_notes</a></code></li>
+<li><code><a title="main.Generator.init_gui" href="#main.Generator.init_gui">init_gui</a></code></li>
+<li><code><a title="main.Generator.select_excel_file" href="#main.Generator.select_excel_file">select_excel_file</a></code></li>
+<li><code><a title="main.Generator.select_path_to_save" href="#main.Generator.select_path_to_save">select_path_to_save</a></code></li>
+<li><code><a title="main.Generator.show_dialog" href="#main.Generator.show_dialog">show_dialog</a></code></li>
+<li><code><a title="main.Generator.validate_fields" href="#main.Generator.validate_fields">validate_fields</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc" title="pdoc: Python API documentation generator"><cite>pdoc</cite> 0.11.5</a>.</p>
+</footer>
+</body>
+</html>

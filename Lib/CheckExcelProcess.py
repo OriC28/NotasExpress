@@ -5,15 +5,20 @@ Descripción: Módulo que permite verificar si el proceso de Excel se encuentra 
 Autor: Oriana Colina, Carlos Noguera, Genesys Alvarado, Ángel Colina y María Quevedo.
 Fecha: 15 de enero de 2025
 """
+# NotasExpress
+# Copyright (C) 2025 Escuela Técnica Industrial Nacional Capitán Giovanni Ferrareis 
+# Licenciado bajo la GNU GPLv3. Ver <https://www.gnu.org/licenses/>.
+
 # IMPORTANDO LIBRERIAS NECESARIAS
 import psutil
 
-"""
-Permite verificar si el proceso de Excel se encuentra en ejecución.
-    
-returns (bool): True si el proceso de Excel se encuentra en ejecución, False en caso contrario.
-"""
+
 def check_excel_running():
+    """Permite verificar si el proceso de Excel se encuentra en ejecución.
+        
+    Returns: 
+    bool : True si el proceso de Excel se encuentra en ejecución, False en caso contrario.
+    """
     running = False
     for proc in psutil.process_iter():
         try:
@@ -24,4 +29,4 @@ def check_excel_running():
         except psutil.NoSuchProcess:
             pass   
     return running     
-        
+

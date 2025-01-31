@@ -1,10 +1,14 @@
-# -*- coding: utf-8 -*-
+
 """
 Archivo: WriteFile.py
 Descripción: Este archivo contiene las funciones necesarias para crear los archivos de los boletines de los estudiantes.
 Autor: Oriana Colina, Carlos Noguera, Genesys Alvarado, Ángel Colina y María Quevedo.
 Fecha: 15 de enero de 2025
 """
+# NotasExpress
+# Copyright (C) 2025 Escuela Técnica Industrial Nacional Capitán Giovanni Ferrareis 
+# Licenciado bajo la GNU GPLv3. Ver <https://www.gnu.org/licenses/>.
+
 # IMPORTANDO LIBRERÍAS NECESARIAS
 from openpyxl import load_workbook
 import os
@@ -12,13 +16,17 @@ import os
 # IMPORTANDO MÓDULOS LOCALES
 from Lib.GetPDF import run_export_in_background
 
-"""
-Crea los directorios necesarios para almacenar los archivos de los boletines
 
-@param path: Ruta del directorio principal.
-@return created: True si se crearon los directorios, False en caso contrario.
-"""
 def create_folders(path: str):
+	"""Crea los directorios necesarios para almacenar los archivos de los boletines
+
+	Si existe un directorio homónimo, entonces arrojará una excepción con dicha advertencia.
+
+	Attributes:
+	path (str) : Ruta del directorio principal.
+
+	Returns: 
+	created (bool) : True si se crearon los directorios, False en caso contrario."""
 	created = False
 	if not os.path.exists(path):
 		# CREA EL DIRECTORIO PRINCIPAL 
@@ -28,16 +36,20 @@ def create_folders(path: str):
 		# CREA UN SUBDIRECTORIO LLAMADO "EXCEL" 
 		os.mkdir(os.path.join(path, "EXCEL"))  
 		created = True
+	else:
+		raise Exception('Ya existen boletines de esta sección en el directorio seleccionado. Por favor, cambie el directorio o elimine los archivos conflictivos.')
 	return created
 
-"""
-Crea los archivos PDF de los boletines de los estudiantes.
+def create_pdfs_boletin(path: str, loadingScreen):
+	"""Crea los archivos PDF de los boletines de los estudiantes.
 
-@param path: Ruta del directorio principal.
-@param loadingScreen: Instancia de la clase LoadingScreen.
-@param enableButtonFunc: Función que habilita el botón de "Generar Boletines".
-"""
-def create_pdfs_boletin(path: str, loadingScreen, enableButtonFunc=None):
+	Los archivos PDF son ejecutados por una función en un hilo secundario para
+	limitar problemas de rendimiento. 
+
+	Attributes:
+	path (str): Ruta del directorio principal.
+	loadingScreen (LoadingScreen) : Pantalla de carga del proceso de generar archivos.
+	"""
 	# ARCHIVOS DENTRO DEL SUBDIRECTORIO "EXCEL"
 	files = [i for i in os.listdir(os.path.join(path, 'EXCEL')) if i.endswith(".xlsx")]
 
@@ -52,29 +64,28 @@ def create_pdfs_boletin(path: str, loadingScreen, enableButtonFunc=None):
 		input_file = input_file.replace("/", '\\')
 		output_file = output_file.replace('/', '\\')
 
-		# ACTUALIZA LA ETIQUETA QUE INDICA EL ARCHIVO QUE SE ESTÁ PROCESANDO
-		loadingScreen.get_file_direction_txt()
 		# EJECUTA EL PROCESO DE EXPORTACIÓN EN SEGUNDO PLANO
-		run_export_in_background(input_file, output_file, loadingScreen.progress_on_file)
-"""
-Crea el archivo de Excel del boletín de un estudiante.
+		run_export_in_background(input_file, output_file)
+		loadingScreen.progress_on_file(output_file)
 
-@param student: Instancia de la clase Student.
-@param school_year: Año escolar.
-@param subjects: Lista de instancias de la clase Subject.
-@param mention: Mención del estudiante.
-@param sheet_choiced: Año y sección del estudiante.
-@param guide_teacher: Profesor guía del estudiante.
-@param date: Fecha de entrega del boletín.
-@param path: Ruta del directorio principal.
-"""
 def create_excel_boletin(student, school_year, subjects, mention, sheet_choiced, guide_teacher, date, path):
+	"""Crea el archivo de Excel del boletín de un estudiante en la ruta indicada.
+
+	
+	Attributes:
+	student (Student) : Instancia de la clase Student.
+	school_year (str) : Año escolar.
+	subjects (Subject) : Lista de instancias de la clase Subject.
+	mention (str) : Mención del estudiante.
+	sheet_choiced (str) : Año y sección del estudiante.
+	guide_teacher (str) : Profesor guía del estudiante.
+	date (str) : Fecha de entrega del boletín.
+	path (str) : Ruta del directorio principal."""
 	row = 9
 	def_general = 0
 	boletin = load_workbook('./Resource/BOLETIN.xlsx', data_only=True)
 	sheet = boletin.active
 	if student.name!= str:
-
 		# AÑO ESCOLAR
 		sheet['C4'].value += school_year
 		# NOMBRE COMPLETO
@@ -91,7 +102,7 @@ def create_excel_boletin(student, school_year, subjects, mention, sheet_choiced,
 		sheet['J6'].value += date
 
 		for subject in subjects:
-			if row >17:
+			if row >19:
 				break
 			else:
 				# MATERIAS
@@ -111,7 +122,7 @@ def create_excel_boletin(student, school_year, subjects, mention, sheet_choiced,
 					def_general+=student.subjects_performance[subject.name].moment_grades[3] 
 			row+=1
 		# PROMEDIO GENERAL DEL ESTUDIANTE
-		sheet['K20'].value = str(round(def_general/len(subjects), 2))
+		sheet['K22'].value = str(round(def_general/len(subjects), 2))
 			
 		boletin.save(os.path.join(path, 'EXCEL', f'{student.cedula}.xlsx'))
 		boletin.close()

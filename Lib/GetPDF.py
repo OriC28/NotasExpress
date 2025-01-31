@@ -5,6 +5,11 @@ Descripción: Módulo que permite exportar un archivo de Excel a PDF en un hilo 
 Autor: Oriana Colina, Carlos Noguera, Genesys Alvarado, Ángel Colina y María Quevedo.
 Fecha: 15 de enero de 2025
 """
+
+# NotasExpress
+# Copyright (C) 2025 Escuela Técnica Industrial Nacional Capitán Giovanni Ferrareis 
+# Licenciado bajo la GNU GPLv3. Ver <https://www.gnu.org/licenses/>.
+
 # IMPORTANDO LIBRERIAS NECESARIAS
 from win32com import client
 from PyQt6 import QtCore
@@ -17,27 +22,40 @@ Clase para enviar señales entre hilos.
 @attr signal (object): Señal para enviar mensajes entre hilos.
 """
 class thread_signal(QtCore.QObject):
+	"""Clase para enviar señales entre hilos, se basa en las señales de la clase QObject.
+
+
+	Attributes:
+	signal (pyqtSignal): Señal para enviar mensajes entre hilos.
+	"""
 	signal = QtCore.pyqtSignal(str)
 
-"""
-Clase para exportar un archivo de Excel a PDF en un hilo separado.
 
-@attr thread_finished (object): Señal para indicar que el hilo ha finalizado.
-@attr input_path (str): Ruta del archivo Excel.
-@attr output_path (str): Ruta del archivo PDF.
-"""
 class pdf_thread(threading.Thread):
-	
+	"""Clase para exportar un archivo de Excel a PDF en un hilo separado.
+
+
+	Attributes:
+	thread_finished (thread_signal): Señal para indicar que el hilo ha finalizado.
+	input_path (str): Ruta del archivo Excel.
+	output_path (str): Ruta del archivo PDF.
+	"""
 	def __init__(self, input_path='', output_path=''):
+		"""Inicialización de la clase pdf_thread.
+		
+
+		Attributes:
+		input_path (str) : Ruta del archivo Excel.
+		output_path (str) : Ruta del archivo PDF."""
 		threading.Thread.__init__(self)
 		self.thread_finished = thread_signal()
 		self.input_path = input_path
 		self.output_path = output_path
-
-	"""
-	Método para exportar un archivo de Excel a PDF en un hilo separado.
-	"""
+	
 	def run(self):
+		"""Método para exportar un archivo de Excel a PDF en un hilo separado.
+		
+		Es necesario que no esté abierta la aplicación Excel para su funcionamiento correcto"""
 		pythoncom.CoInitialize()
 		try:
 			# ABRIR LA APLICACION EXCEL
@@ -49,8 +67,7 @@ class pdf_thread(threading.Thread):
 
 			# EXPORTAR EL ARCHIVO EXCEL A PDF
 			sheet.ExportAsFixedFormat(0, self.output_path)
-			# ENVIAR SEÑAL DE FINALIZACIÓN	
-			self.thread_finished.signal.emit(self.output_path)
+
 		except Exception as e:
 			print(e)
 
@@ -59,17 +76,15 @@ class pdf_thread(threading.Thread):
 			excel.Quit()
 			pythoncom.CoUninitialize()
 
-"""
-Permite exportar un archivo de Excel a PDF en un hilo separado.
+def run_export_in_background(input_path: str, output_path: str):
+	"""Permite exportar un archivo de Excel a PDF en un hilo separado.
 
-@param input_path (str): Ruta del archivo Excel.
-@param output_path (str): Ruta del archivo PDF.
-@param func (function): Función a ejecutar al finalizar el hilo.
-"""
-def run_export_in_background(input_path: str, output_path: str, func: callable):
+	Solo es posible ejecutar un hilo a la vez.
+	Attributes:
+	input_path (str): Ruta del archivo Excel.
+	output_path (str): Ruta del archivo PDF.
+	"""
 	thread = pdf_thread(input_path, output_path)
-	thread.thread_finished.signal.connect(func)
 	thread.start()
 	thread.join()
-
 
