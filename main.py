@@ -89,7 +89,10 @@ class Generator:
 					self.program.pathFile.setText(file_path)
 
 					extraction = Extraction(self.file_path)
-					self.program.CbYearSection.addItems(extraction.sheets)
+
+					sheets = [sheet for sheet in extraction.sheets if not sheet.startswith('6to')]
+
+					self.program.CbYearSection.addItems(sheets)
 					self.program.CbYearSection.setEnabled(True)
 					del extraction
 					self.program.SaveButton.setEnabled(True)
@@ -122,9 +125,7 @@ class Generator:
 				if self.program.CbMention.count() == 0:
 					self.program.CbMention.addItems([
 						'TRANSPORTE ACUÁTICO', 
-						'METALMECÁNICA', 
-						'METALMECÁNICA Y NAVAL', 
-						'MECÁNICA DE MANTENIMIENTO INDUSTRIAL'
+						'METALMECÁNICA'
 					])
 				
 				for student in total_students:
