@@ -16,18 +16,6 @@ El objetivo central de esta herramienta es optimizar y agilizar el proceso de em
   - Requiere Microsoft Excel 2010 o superior.
   - Sólo está disponible para Windows 7 o superior. 
 
-## Estructura del Proyecto
-
-NotasExpress/
-- ├── docs/               ### Documentación
-- ├── Lib/                ### Módulos del proyecto
-- ├── GUI/                ### Interfaces gráficas         
-- ├── Resource/           ## Recursos visuales
-- ├── requirements.txt    ### Dependencias del proyecto
-- ├── LICENSE             ### Licencia utilizada
-- ├── main.py             ### Archivo principal
-- └── README.md           ### Este archivo
-
 # Licencia
 
 NotasExpress
