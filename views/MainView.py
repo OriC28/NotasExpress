@@ -22,11 +22,11 @@ class MainView(QMainWindow):
         """
         Inicializa la ventana principal.
 
-        Carga la interfaz de usuario desde el archivo 'gui/GUI.ui', centra la ventana en la pantalla
+        Carga la interfaz de usuario desde el archivo 'GUI/GUI.ui', centra la ventana en la pantalla
         y configura el ícono de la aplicación.
         """
         super().__init__()
-        uic.loadUi('gui/GUI.ui', self)
+        uic.loadUi('GUI/GUI.ui', self)
         self.message = QMessageBox()
         self.table = QTableWidget
         self.center()
