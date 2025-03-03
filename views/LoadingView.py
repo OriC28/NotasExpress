@@ -22,11 +22,11 @@ class LoadingView(QDialog):
         """
         Inicializa la ventana de carga.
 
-        Carga la interfaz de usuario desde el archivo 'gui/Loading.ui' y configura la ventana
+        Carga la interfaz de usuario desde el archivo 'GUI/Loading.ui' y configura la ventana
         para que permanezca siempre visible encima de otras ventanas.
         """
         super().__init__()
-        uic.loadUi('gui/Loading.ui', self)
+        uic.loadUi('GUI/Loading.ui', self)
         self.message = QMessageBox()
         self.cancel_flag = threading.Event()
         self.setWindowFlags(self.windowFlags() | Qt.WindowType.WindowStaysOnTopHint)
